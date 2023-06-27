@@ -1,0 +1,25 @@
+kind: ServiceEntry
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  name: se-jaeger-collector
+spec:
+  hosts:
+    - jaeger-collector.istio-system.svc.cluster.local
+  ports:
+    - number: 14268
+      protocol: HTTP
+      name: http
+      targetPort: 14268
+  resolution: DNS
+status: {}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: disable-mtls-jaeger
+spec:
+  host: jaeger-collector.istio-system.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+

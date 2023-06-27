@@ -1,0 +1,24 @@
+#apiVersion: v1
+#data:
+#  console: "true"
+#  console-authentication: internal
+#  console-ingress: route
+#  console-password: changeme
+#  console-user: admin
+#  console-ingres: none
+#  ingress: none
+#  ingress-host: claims-test.apps.cluster2.example.com
+#  name: test-cluster2
+#  router-console: "false"
+#  router-logging: ""
+#  router-mode: interior
+#  service-controller: "true"
+#  service-sync: "true"
+#kind: ConfigMap
+#metadata:
+#  name: skupper-site
+#  namespace: test
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: skupper-site

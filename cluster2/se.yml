@@ -1,0 +1,186 @@
+apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: skupper-inter-router-kafka.apps.cluster2.example.com
+  spec:
+    hosts:
+    - skupper-inter-router-kafka.apps.cluster2.example.com
+    ports:
+    - name: inter-router
+      number: 443
+      protocol: TLS
+      targetPort: 443
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: claims-skupper-kafka.apps.cluster2.example.com
+  spec:
+    hosts:
+    - claims-skupper-kafka.apps.cluster2.example.com
+    ports:
+    - name: claims
+      number: 443
+      protocol: TLS
+      targetPort: 443
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: skupper-inter-router-test.apps.cluster1.example.com
+  spec:
+    hosts:
+    - skupper-inter-router-test.apps.cluster1.example.com
+    ports:
+    - name: inter-router
+      number: 443
+      protocol: TLS
+      targetPort: 443
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: claims-test.apps.cluster1.example.com
+  spec:
+    hosts:
+    - claims-test.apps.cluster1.example.com
+    ports:
+    - name: claims
+      number: 443
+      protocol: TLS
+      targetPort: 443
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: skupper-router-test.apps.cluster1.example.com
+  spec:
+    hosts:
+    - skupper-router-test.apps.cluster1.example.com
+    ports:
+    - name: claims
+      number: 443
+      protocol: TLS
+      targetPort: 443
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: skupper-router-kafka.apps.cluster2.example.com
+  spec:
+    hosts:
+    - skupper-router-kafka.apps.cluster2.example.com
+    ports:
+    - name: claims
+      number: 443
+      protocol: TLS
+      targetPort: 443
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: pizza-kafka-0.pizza-kafka-brokers.kafka.svc
+  spec:
+    hosts:
+    - pizza-kafka-0.pizza-kafka-brokers.kafka.svc
+    ports:
+    - name: client
+      number: 9092
+      protocol: TCP
+      targetPort: 9092
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: pizza-kafka-1.pizza-kafka-brokers.kafka.svc
+  spec:
+    hosts:
+    - pizza-kafka-1.pizza-kafka-brokers.kafka.svc
+    ports:
+    - name: client
+      number: 9092
+      protocol: TCP
+      targetPort: 9092
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: pizza-kafka-2.pizza-kafka-brokers.kafka.svc
+  spec:
+    hosts:
+    - pizza-kafka-2.pizza-kafka-brokers.kafka.svc
+    ports:
+    - name: client
+      number: 9092
+      protocol: TCP
+      targetPort: 9092
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: pizza-kafka-0.pizza-kafka-brokers.kafka.svc.cluster.local
+  spec:
+    hosts:
+    - pizza-kafka-0.pizza-kafka-brokers.kafka.svc.cluster.local
+    ports:
+    - name: client
+      number: 9092
+      protocol: TCP
+      targetPort: 9092
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: pizza-kafka-1.pizza-kafka-brokers.kafka.svc.cluster.local
+  spec:
+    hosts:
+    - pizza-kafka-1.pizza-kafka-brokers.kafka.svc.cluster.local
+    ports:
+    - name: client
+      number: 9092
+      protocol: TCP
+      targetPort: 9092
+    resolution: DNS
+- apiVersion: networking.istio.io/v1beta1
+  kind: ServiceEntry
+  metadata:
+    labels:
+      kiali_wizard: ServiceEntry
+    name: pizza-kafka-2.pizza-kafka-brokers.kafka.svc.cluster.local
+  spec:
+    hosts:
+    - pizza-kafka-2.pizza-kafka-brokers.kafka.svc.cluster.local
+    ports:
+    - name: client
+      number: 9092
+      protocol: TCP
+      targetPort: 9092
+    resolution: DNS
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

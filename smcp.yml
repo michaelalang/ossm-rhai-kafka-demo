@@ -1,0 +1,53 @@
+apiVersion: maistra.io/v2
+kind: ServiceMeshControlPlane
+metadata:
+  name: cluster
+  namespace: istio-system
+spec:
+  addons:
+    grafana:
+      enabled: true
+    jaeger:
+      install:
+        storage:
+          type: Memory
+    kiali:
+      enabled: true
+    prometheus:
+      enabled: true
+  gateways:
+    openshiftRoute:
+      enabled: true
+  general:
+    logging:
+      logAsJSON: true
+  mode: ClusterWide
+  policy:
+    type: Istiod
+  profiles:
+  - default
+  proxy:
+    injection:
+      autoInject: true
+    networking:
+      trafficControl:
+        inbound: {}
+        outbound:
+          excludedIPRanges:
+          - 172.31.0.1/32
+          - 127.0.0.0/8
+          policy: REGISTRY_ONLY
+  security:
+    controlPlane:
+      mtls: true
+      tls:
+        minProtocolVersion: TLSV1_3
+    dataPlane:
+      automtls: true
+      mtls: true
+  telemetry:
+    type: Istiod
+  tracing:
+    sampling: 10000
+    type: Jaeger
+  version: v2.4

@@ -1,0 +1,81 @@
+apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+    labels:
+      kiali_wizard: request_routing
+    name: skupper-ui
+  spec:
+    gateways:
+    - istio-system/frontend-gateway
+    hosts:
+    - skupper-kafka.apps.cluster2.example.com
+    http:
+    - match:
+      - uri:
+          prefix: /
+      route:
+      - destination:
+          host: skupper.kafka.svc.cluster.local
+          port:
+            number: 8080
+        weight: 100
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+    labels:
+      kiali_wizard: request_routing
+    name: skupper-claims
+  spec:
+    gateways:
+    - istio-system/frontend-gateway
+    hosts:
+    - claims-kafka.apps.cluster2.example.com
+    http:
+    - route:
+      - destination:
+          host: skupper.kafka.svc.cluster.local
+          port:
+            number: 8081
+        weight: 100
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+    labels:
+      kiali_wizard: request_routing
+    name: skupper-edge
+  spec:
+    gateways:
+    - istio-system/frontend-gateway
+    hosts:
+    - skupper-edge-kafka.apps.cluster2.example.com
+    http:
+    - route:
+      - destination:
+          host: skupper-router.kafka.svc.cluster.local
+          port:
+            number: 45671
+        weight: 100
+- apiVersion: networking.istio.io/v1beta1
+  kind: VirtualService
+  metadata:
+    labels:
+      kiali_wizard: request_routing
+    name: skupper-inter-router
+  spec:
+    gateways:
+    - istio-system/frontend-gateway
+    hosts:
+    - skupper-inter-router-kafka.apps.cluster2.example.com
+    http:
+    - route:
+      - destination:
+          host: skupper-router.kafka.svc.cluster.local
+          port:
+            number: 55671
+        weight: 100
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

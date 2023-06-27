@@ -1,0 +1,91 @@
+apiVersion: v1
+items:
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    labels:
+      kiali_wizard: request_routing
+    name: skupper-ui
+  spec:
+    host: skupper.test.svc.cluster.local
+    trafficPolicy:
+      tls:
+        insecureSkipVerify: true
+        mode: SIMPLE
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: skupper-router-local
+  spec:
+    host: skupper-router-local.test.svc.cluster.local
+    trafficPolicy:
+      tls:
+        mode: DISABLE
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: skupper-router
+  spec:
+    host: skupper-router.test.svc.cluster.local
+    trafficPolicy:
+      tls:
+        mode: DISABLE
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: skupper-router-shortname
+  spec:
+    host: skupper-router.test
+    trafficPolicy:
+      tls:
+        mode: DISABLE
+        insecureSkipVerify: true
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: skupper-inter-router
+  spec:
+    host: skupper-inter-router.test.apps.cluster1.example.com
+    trafficPolicy:
+      tls:
+        mode: DISABLE
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: skupper-router-remote
+  spec:
+    host: skupper-router-kafka.apps.cluster2.example.com
+    trafficPolicy:
+      tls:
+        mode: DISABLE
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: skupper-claims-remote
+  spec:
+    host: claims-test.apps.cluster2.example.com
+    trafficPolicy:
+      tls:
+        mode: DISABLE
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: skupper-router-shortname2
+  spec:
+    host: skupper-router
+    trafficPolicy:
+      tls:
+        mode: DISABLE
+- apiVersion: networking.istio.io/v1beta1
+  kind: DestinationRule
+  metadata:
+    name: skupper-router-local.test.svc.cluster.local
+  spec:
+    host: skupper-router-local.test.svc.cluster.local
+    trafficPolicy:
+      tls:
+        mode: DISABLE
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

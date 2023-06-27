@@ -1,0 +1,65 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: istio-ingressgateway
+    app.kubernetes.io/component: istio-ingress
+    app.kubernetes.io/instance: istio-system
+    app.kubernetes.io/managed-by: maistra-istio-operator
+    app.kubernetes.io/name: istio-ingress
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 2.4.0-1-24
+    istio: ingressgateway
+    istio.io/rev: cluster
+    maistra-version: 2.4.0
+    maistra.io/owner: istio-system
+    maistra.io/owner-name: cluster
+    release: istio
+  name: skupper-claims
+  namespace: istio-system
+spec:
+  host: claims-test.apps.cluster2.example.com
+  port:
+    targetPort: https
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: passthrough
+  to:
+    kind: Service
+    name: istio-ingressgateway
+    weight: 100
+  wildcardPolicy: None
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: istio-ingressgateway
+    app.kubernetes.io/component: istio-ingress
+    app.kubernetes.io/instance: istio-system
+    app.kubernetes.io/managed-by: maistra-istio-operator
+    app.kubernetes.io/name: istio-ingress
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 2.4.0-1-24
+    istio: ingressgateway
+    istio.io/rev: cluster
+    maistra-version: 2.4.0
+    maistra.io/owner: istio-system
+    maistra.io/owner-name: cluster
+    release: istio
+  name: skupper-router
+  namespace: istio-system
+spec:
+  host: skupper-inter-router-test.apps.cluster2.example.com
+  port:
+    targetPort: https
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: passthrough
+  to:
+    kind: Service
+    name: istio-ingressgateway
+    weight: 100
+  wildcardPolicy: None
+---
+

@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pizza-kafka-0
+  namespace: kafka
+spec:
+  ports:
+  - name: 9092-tcp
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  selector:
+    strimzi.io/pod-name: pizza-kafka-0
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pizza-kafka-1
+  namespace: kafka
+spec:
+  ports:
+  - name: 9092-tcp
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  selector:
+    strimzi.io/pod-name: pizza-kafka-1
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pizza-kafka-2
+  namespace: kafka
+spec:
+  ports:
+  - name: 9092-tcp
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  selector:
+    strimzi.io/pod-name: pizza-kafka-2
+  sessionAffinity: None
+  type: ClusterIP
+---
+

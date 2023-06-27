@@ -1,0 +1,29 @@
+apiVersion: v1
+items:
+- apiVersion: security.istio.io/v1beta1
+  kind: PeerAuthentication
+  metadata:
+    labels:
+      kiali_wizard: PeerAuthentication
+    name: skupper-mtls-disabled
+  spec:
+    mtls:
+      mode: PERMISSIVE
+    portLevelMtls:
+      "5671":
+        mode: DISABLE
+      "8080":
+        mode: DISABLE
+      "8081":
+        mode: DISABLE
+      "45671":
+        mode: DISABLE
+      "55671":
+        mode: DISABLE
+    selector:
+      matchLabels:
+        app.kubernetes.io/part-of: skupper
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

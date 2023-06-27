@@ -1,0 +1,78 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: pizza
+    app.kubernetes.io/managed-by: strimzi-cluster-operator
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/part-of: strimzi-pizza
+    strimzi.io/cluster: pizza
+    strimzi.io/component-type: kafka
+    strimzi.io/kind: Kafka
+    strimzi.io/name: pizza-kafka
+  name: pizza-kafka-0
+  namespace: kafka
+spec:
+  ports:
+  - name: tcp-clients
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  publishNotReadyAddresses: true
+  selector:
+    statefulset.kubernetes.io/pod-name: pizza-kafka-0
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: pizza
+    app.kubernetes.io/managed-by: strimzi-cluster-operator
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/part-of: strimzi-pizza
+    strimzi.io/cluster: pizza
+    strimzi.io/component-type: kafka
+    strimzi.io/kind: Kafka
+    strimzi.io/name: pizza-kafka
+  name: pizza-kafka-1
+  namespace: kafka
+spec:
+  ports:
+  - name: tcp-clients
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  publishNotReadyAddresses: true
+  selector:
+    statefulset.kubernetes.io/pod-name: pizza-kafka-1
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/instance: pizza
+    app.kubernetes.io/managed-by: strimzi-cluster-operator
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/part-of: strimzi-pizza
+    strimzi.io/cluster: pizza
+    strimzi.io/component-type: kafka
+    strimzi.io/kind: Kafka
+    strimzi.io/name: pizza-kafka
+  name: pizza-kafka-2
+  namespace: kafka
+spec:
+  ports:
+  - name: tcp-clients
+    port: 9092
+    protocol: TCP
+    targetPort: 9092
+  publishNotReadyAddresses: true
+  selector:
+    statefulset.kubernetes.io/pod-name: pizza-kafka-2
+  sessionAffinity: None
+  type: ClusterIP
+---
