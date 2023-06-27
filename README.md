@@ -10,8 +10,29 @@ connection to the Kafka OCP cluster.
 * 2 OCP Clusters
 * Network connectivity (https) between the OCP Clusters for RHAI
 * OSSM operator and dependencies installed in both OCP Cluster
+    * with OSSM CP `mode: cluster` it is not possible to run another SMCP in the same cluster
 * RHAI operator installed in both OCP Clusters
+* Adjust all names according to your setup
+    * ServiceEntry 
+    * VirtualService 
+    * DestinationRules
 
+#### renaming you base domain for your deployment
+
+the CR for ServiceMesh requires certain names to be `hardcoded` to not explode the demo towards helm and GitOPS. Therefor you need to ensure that
+* all entries for `cluster1.example.com` match your `cluster1` base domain 
+    ```
+    for f in $(find . -type f -exec fgrep -l cluster1.example.com {} \;) ; do 
+        sed -i -e ' s#cluster1.example.com#<basedomain>#g; ' ${f} 
+    done
+    ```
+* all entries for `cluster2.example.com` match your `cluster2` base domain
+    ```
+    for f in $(find . -type f -exec fgrep -l cluster2.example.com {} \;) ; do 
+        sed -i -e ' s#cluster2.example.com#<basedomain>#g; ' ${f} 
+    done
+    ```
+    
 ### Deployment of the highly restricted and mTLS enforced ServiceMesh 
 
 Apply the [ServiceMeshControlPlane)[#smcp.yml] CRD to both Clusters. We will not federate the two meshes so we do not need to configure alternative names and or exchange Certificate Authority information for this LAB.
@@ -276,6 +297,9 @@ Currently active links from other sites:
 A link from the namespace kafka on site kafka(5b491c9c-bcf3-49f4-9f23-6a8512fd0a14) is active 
 ```
 
+the Kiali UI will show a topology similar to the screenshot below 
+![Cluster1 Kiali UI topology](pictures/Cluster1-kafka-mesh.png)
+
 #### exposing our Kafka Service to cluster2
 
 At the time of writing the LAB, RHAI is lacking the capability to expose Pods which strimzi Kafka creates for broker nodes, so we need to add a service CRD for those to our Kafka cluster.
@@ -371,3 +395,38 @@ INFO:kafka.conn:<BrokerConnection node_id=2 host=pizza-kafka-2.pizza-kafka-broke
 INFO:kafka.conn:<BrokerConnection node_id=0 host=pizza-kafka-0.pizza-kafka-brokers.kafka.svc:9092 <connecting> [IPv4 ('172.30.66.59', 9092)]>: connecting to pizza-kafka-0.pizza-kafka-brokers.kafka.svc:9092 [('172.30.66.59', 9092) IPv4]
 INFO:kafka.conn:<BrokerConnection node_id=0 host=pizza-kafka-0.pizza-kafka-brokers.kafka.svc:9092 <connecting> [IPv4 ('172.30.66.59', 9092)]>: Connection complete.
 ```
+
+the Kiali UI will show a topology similar to the screenshot below 
+![Cluster1 Kiali UI topology](pictures/Cluster2-consumer-skupper.png)
+
+## noticeable items from the setup
+
+* after trying to ensure the concept is healthy working, `rollout restart` on the workloads do not harm, I encountered that the Kafka cluster itself does not behave nicely with the default settings provided from the strimzi Operator.
+* the kafka-nodes where sometime showing SSL connections issues eventhough I did not configure SSL (port 9090 and configured is plain 9092)
+
+    ```
+      listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+    ```
+
+* similar to the producer reporting `warnings` on TopicPartitioning
+
+    ```
+    WARNING:kafka.producer.record_accumulator:Produced messages to topic-partition TopicPartition(topic='store4.orders', partition=0) with base offset -1 log start offset -1 and error None.
+    ```
+
+  which could be omitted by setting `min.insync.replicas: 1` but I haven't verified
+* Kafka does not want to connect to foreign names due to how brokers and election are announced. This is the reason the workload on `cluster2` resides in the same namespace name as the Kafka cluster itself.
+* Kiali UI warnings (`IstioConfig has errors`) pop up due to missing labels (app,version,...) and the Kafka operator does not provide all necessary options
+* RHAI (skupper) in version 1.2.2 does not support service bindings on pods 
+
+    ```
+    $ skupper -c cluster1 -n test service bind pizza-kafka-1 pods pizza-kafka-1.kafka.svc.cluster.local --target-port 9092
+    Error: VAN service interfaces for pods not yet implemented
+    ```
+ 
+![Kiali UI Video both Clusters](pictures/OSSM_plus_kafka_plus_skupper.mkv)
+
