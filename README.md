@@ -7,7 +7,7 @@ connection to the Kafka OCP cluster.
 
 ## Requirements
 
-* 2 OCP Clusters
+* 2 OCP Clusters (currently version bound to 4.12)
 * Network connectivity (https) between the OCP Clusters for RHAI
 * OSSM operator and dependencies installed in both OCP Cluster
     * with OSSM CP `mode: cluster` it is not possible to run another SMCP in the same cluster
